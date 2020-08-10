@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "superList"
+    }
+  },
+  "defaultProject": "superList",
+  "cli": {
+    "analytics": false
+  }
 }

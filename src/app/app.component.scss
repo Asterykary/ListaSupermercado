@@ -1,0 +1,60 @@
+.contenedor{
+    display: flex;
+    width: 80%;
+    margin: 0% 10%;
+    .datosSuper{
+        width: 40%;
+        .inputBox{
+            .label{
+                font-weight: bold;
+            }
+            .input{
+
+            }
+        }
+        .agregar{
+            margin-top: 10px;
+            background-color: lightgreen;
+        }
+        .guardar{
+            margin-top: 10px;
+            background-color: lightgreen;
+        }
+
+    }
+    .listadoSuper{
+        width: 60%;
+        .percent{
+            text-align: right;
+        }
+        .list-container{
+            .row{
+                display:flex;
+                align-items: center;
+                .description{
+                    display: flex;
+                    width: 100%;
+                    background-color: lightgreen;
+                    .count-description{
+                        flex-grow: 1;
+                    }
+                    .editar{
+
+                        height: 50px;
+                        width: 50px;
+                    }
+                    .eliminar{
+                        height: 50px;
+                        width: 50px;
+                    }
+                }
+                .check{
+                    .check-list{
+                        width: 50px;
+                        height: 50px;
+                    }
+                }
+            }
+        }
+    }
+}
