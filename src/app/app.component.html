@@ -1,39 +1,14 @@
-<div class="contenedor">
+<app-navbar></app-navbar>
 
-  <div class="datosSuper">
-    <form [formGroup]="productForm" >
-      <h1>Lista del Super</h1>
-      <div class="inputBox">
-        <p class="label">
-          Nombre Producto
-        </p>
-        <input formControlName="nombre" type="text" id="txtNombre" class="input" placeholder="Ingrese el nombre">
-      </div>
-      <div class="inputBox">
-        <p class="label">
-          Cantidad
-        </p>
-        <input formControlName="cantidad" type="number" id="txtCantidad" class="input" placeholder="Ingrese la cantidad">
-      </div>
-      <button *ngIf="!estaActualizando" (click)="agregarProducto()" type="submit"  class="agregar" id="btnAgregar">
-        Agregar
-      </button>
-      <button (click)="actualizar()" *ngIf="estaActualizando" class="guardar" id="btnGuardar">
-        Guardar
-      </button>
-    </form>
+<div class="contenedor">
+  <div class="form-container">
+    <app-form (estaActualizado)="guardarProducto()" [estaActualizando]="estaActualizando" (añadirProducto)="agregarProducto($event)" [productForm]="productForm"></app-form>
   </div>
-  <div class="listadoSuper">
-    <h1 class="percent">Listo: {{porcentaje |  number:'1.0-0'}}%</h1>
-    <div id="list-container" class="list-container">
-      <div class="row" *ngFor="let producto of listaSuper; let indice=index">
-        <div class="description">
-          <p class="count-description">{{producto.cantidad}} - {{producto.nombre}}</p>
-          <img class="eliminar" (click)="eliminarProducto(indice)" src="assets/img/eliminar.png">
-          <img class="editar" (click)="editarProducto(producto, indice)" src="assets/img/editar.png">
-        </div>
-        <div class="check"><input class="check-list" (click)="checkProducto(producto)" type="checkbox"></div>
-      </div>
-    </div>
+  <div class="list-container">
+    <app-list (actualizarProducto)="actualizarProducto($event)" (cambiarPorcentaje)="cambiarPorcentaje()" [porcentaje]="porcentaje" [listaSuper]="listaSuper"></app-list>
   </div>
 </div>
+
+
+
+  

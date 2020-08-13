@@ -1,0 +1,15 @@
+<div class="form">
+    <form [formGroup]="productForm">
+        <h1>Ingresar producto</h1>
+        <p>Descripción del producto</p>
+        <input type="text" formControlName="nombre" class="input" placeholder="Ingrese la descripción del producto">
+        <p>Cantidad</p>
+        <input type="text" formControlName="cantidad" class="input" placeholder="Ingrese la cantidad">
+        <button *ngIf="!estaActualizando" type="submit" (click)="agregarProducto()" class="boton">
+            Agregar
+        </button>
+        <button  *ngIf="estaActualizando" (click)="guardarProducto()" class="boton">
+            Guardar
+        </button>
+    </form>
+</div>

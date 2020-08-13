@@ -11,107 +11,65 @@ export class AppComponent {
 
   productForm: FormGroup;
 
-  porcentaje: number = 0;
+  indiceProducto;
 
-  estaActualizando: boolean = false;
-  indice: number;
+  estaActualizando = false;
 
   listaSuper: Producto[] = [];
 
-  get nombre(): AbstractControl {return this.productForm.get('nombre')}
-  get cantidad(): AbstractControl {return this.productForm.get('cantidad')}
+  porcentaje = 0;
 
   constructor(private fb: FormBuilder){
-    const _lista = JSON.parse(localStorage.getItem("lista"));
-    this.listaSuper =  !_lista ?  [] : _lista;
     this.productForm = this.fb.group({
       nombre: ['', [Validators.required]],
       cantidad: ['', [Validators.required]],
     });
-    
-   
   }
 
-  agregarProducto(){
-    console.log(this.productForm);
-    if(this.productForm.valid){
-      console.log('Formualrio valido');
-      const product: Producto = {
-        nombre: this.nombre.value,
-        cantidad: this.cantidad.value,
-        listo: false
+  agregarProducto(producto: Producto){
+    this.listaSuper.push(producto);
+    this.cambiarPorcentaje();
+    //console.log(this.listaSuper);
+
+  }
+
+  cambiarPorcentaje(){
+    const numP = this.listaSuper.length;
+    let cantidadListo = 0;
+    this.listaSuper.forEach((producto) =>{
+      if(producto.listo){
+        cantidadListo++;
       }
-      this.listaSuper.push(product);
-      this.nombre.setValue('');
-      this.cantidad.setValue('');
-      this.actualizarPorcentaje();
-      localStorage.setItem("lista", JSON.stringify(this.listaSuper));
-      
-    }else{
-      alert('Formulario invalido');
-    }
+    })
+    this.porcentaje = cantidadListo * 100 / numP;
+    //console.log(this.porcentaje); 
   }
 
-  actualizarPorcentaje(){
-    const largoLista = this.listaSuper.length;
-    const listos = this.listaSuper.filter((prod) => {
-      return prod.listo == true;
-    });
-    const cantProductListos = listos.length;
-    const resultado = (cantProductListos * 100) / largoLista;
-    if(isNaN(resultado)){
-      this.porcentaje = 0;
-    }
-    else{
-      this.porcentaje = resultado;
-    }
-    
-  }
-
-  checkProducto(producto: Producto){
-    producto.listo = !producto.listo;
-    this.actualizarPorcentaje();
-  }
-
-  eliminarProducto(indice:number){
-    if(this.estaActualizando){
-      alert('No se puede eliminar mientras se esta actualizando...');
-    }
-    else{
-      this.listaSuper.splice(indice,1);
-      localStorage.setItem("lista", JSON.stringify(this.listaSuper));
-      this.actualizarPorcentaje();
-    }
-    
-  }
-
-  editarProducto(product, index){
-    this.indice = index;
-    this.nombre.setValue(product.nombre);
-    this.cantidad.setValue(product.cantidad);
+  actualizarProducto(index){
+    const producto = this.listaSuper[index];
+    this.productForm.controls['nombre'].setValue(producto.nombre);
+    this.productForm.controls['cantidad'].setValue(producto.cantidad);
     this.estaActualizando = true;
+    this.indiceProducto = index;
   }
 
-  actualizar(){
-    if(this.productForm.valid){
-    console.log(this.indice);
-    const producto = this.listaSuper[this.indice];
-    producto.nombre = this.nombre.value;
-    producto.cantidad = this.cantidad.value;
-    this.nombre.setValue("");
-    this.cantidad.setValue("");
+  guardarProducto(){
+    const nombre = this.productForm.controls['nombre'].value;
+    const cantidad = this.productForm.controls['cantidad'].value;
+
+    const producto = this.listaSuper[this.indiceProducto];
+
+    producto.nombre = nombre;
+    producto.cantidad = cantidad;
+
+    this.productForm.reset();
     this.estaActualizando = false;
-    localStorage.setItem("lista", JSON.stringify(this.listaSuper));
-    console.log(this.nombre.value);
-    }else{
-      alert('Debe rellenar los campos');
-    }
   }
-
+  
 }
 
-export interface Producto{
-  nombre: string;
-  cantidad: number;
-  listo: boolean;
-}
+ export interface Producto{
+   nombre: string;
+   cantidad: number;
+   listo: boolean;
+ }
