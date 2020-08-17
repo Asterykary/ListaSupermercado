@@ -1,5 +1,6 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
+import { Producto } from 'src/app/models/producto.model';
 
 @Component({
   selector: 'app-form',
@@ -50,9 +51,5 @@ export class FormComponent implements OnInit {
   
 }
 
-export interface Producto{
-  nombre: string;
-  cantidad: number;
-  listo: boolean;
-}
+
 

@@ -24,8 +24,13 @@
     }
     h1{
         margin-left: 160px;
+        flex-grow: 1;
         font-size: 25px;
         font-weight: bolder;
         color:var(--white);
+    }
+    p{
+        padding-right: 20px;
+        color: var(--white);
     }
 }

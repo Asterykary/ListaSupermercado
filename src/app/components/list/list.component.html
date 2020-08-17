@@ -1,13 +1,13 @@
 <div class="list">
     <h1 class="ready"><strong>LISTO:</strong> {{porcentaje | number:'1.0-0'}}%</h1>
-    <div class="list-content" *ngFor="let list of listaSuper; let i= index">
+    <div class="list-content" *ngFor="let producto of productos; let i= index">
         <div class="cantidad">
             <p class="name-cantidad">Cantidad</p>
-            <p class="num-cantidad">{{list.cantidad}}</p>
+            <p class="num-cantidad">{{producto.cantidad}}</p>
         </div>
         <div class="description-container">
             <p class="description">Descripción</p>
-            <h1 class="name">{{list.nombre}}</h1>
+            <h1 class="name">{{producto.nombre}}</h1>
         </div>
         <div class="btn">
             <p class="name">Editar</p>
@@ -17,7 +17,7 @@
             <p class="name">Eliminar</p>
             <fa-icon [icon]="ionDelete"></fa-icon>
         </div>
-        <div class="check-list" [ngClass]="{'check-list-active': list.listo}" (click)="check(i)">
+        <div class="check-list" [ngClass]="{'check-list-active': producto.listo}" (click)="check(i)">
             <fa-icon [icon]="ionCheck"></fa-icon>
         </div>
         

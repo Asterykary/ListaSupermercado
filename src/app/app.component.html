@@ -1,12 +1,15 @@
 <app-navbar></app-navbar>
 
-<div class="contenedor">
+<div *ngIf="user" class="contenedor">
   <div class="form-container">
     <app-form (estaActualizado)="guardarProducto()" [estaActualizando]="estaActualizando" (añadirProducto)="agregarProducto($event)" [productForm]="productForm"></app-form>
   </div>
   <div class="list-container">
-    <app-list (actualizarProducto)="actualizarProducto($event)" (cambiarPorcentaje)="cambiarPorcentaje()" [porcentaje]="porcentaje" [listaSuper]="listaSuper"></app-list>
+    <app-list (actualizarProducto)="actualizarProducto($event)"></app-list>
   </div>
+</div>
+<div *ngIf="loading" class="loading">
+  <img src="assets/img/loading.gif" alt="" class="load">
 </div>
 
 

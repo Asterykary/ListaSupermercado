@@ -3,4 +3,7 @@
         <fa-icon [icon]="iconCart"></fa-icon>
     </div>
     <h1>Lista de Supermercado</h1>
+    <p *ngIf="user">Hola, {{user.displayName}}</p>
+    <button *ngIf="!user" (click)="loginGoogle()" class="btn-login">Login Google</button>
+    <button *ngIf="user" (click)="cerrarSesion()" class="btn-login">Cerrar Sesión</button>
 </div>

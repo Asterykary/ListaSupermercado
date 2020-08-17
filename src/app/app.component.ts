@@ -1,13 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormControl, AbstractControl } from '@angular/forms';
 import { ThrowStmt } from '@angular/compiler';
+import { AuthService } from './services/auth.service';
+import { Producto } from 'src/app/models/producto.model';
+import { ProductoService } from './services/producto.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
 
   productForm: FormGroup;
 
@@ -17,36 +20,31 @@ export class AppComponent {
 
   listaSuper: Producto[] = [];
 
-  porcentaje = 0;
+  get user() {return this.auth.user}
 
-  constructor(private fb: FormBuilder){
+  get loading() {return this.productoService.loading}
+  
+  constructor(private fb: FormBuilder, private auth: AuthService, private productoService: ProductoService){
     this.productForm = this.fb.group({
       nombre: ['', [Validators.required]],
       cantidad: ['', [Validators.required]],
     });
   }
 
+  ngOnInit(): void {
+    
+  }
+
+
   agregarProducto(producto: Producto){
-    this.listaSuper.push(producto);
-    this.cambiarPorcentaje();
-    //console.log(this.listaSuper);
+    producto.idusuario = this.auth.user.uid;
+    this.productoService.agregarProducto(producto);
 
   }
 
-  cambiarPorcentaje(){
-    const numP = this.listaSuper.length;
-    let cantidadListo = 0;
-    this.listaSuper.forEach((producto) =>{
-      if(producto.listo){
-        cantidadListo++;
-      }
-    })
-    this.porcentaje = cantidadListo * 100 / numP;
-    //console.log(this.porcentaje); 
-  }
 
   actualizarProducto(index){
-    const producto = this.listaSuper[index];
+    const producto = this.productoService.productos[index];
     this.productForm.controls['nombre'].setValue(producto.nombre);
     this.productForm.controls['cantidad'].setValue(producto.cantidad);
     this.estaActualizando = true;
@@ -57,19 +55,18 @@ export class AppComponent {
     const nombre = this.productForm.controls['nombre'].value;
     const cantidad = this.productForm.controls['cantidad'].value;
 
-    const producto = this.listaSuper[this.indiceProducto];
+    const producto = this.productoService.productos[this.indiceProducto];
 
     producto.nombre = nombre;
     producto.cantidad = cantidad;
 
+    this.productoService.actualizarProducto(producto);
     this.productForm.reset();
     this.estaActualizando = false;
   }
+
+  
   
 }
 
- export interface Producto{
-   nombre: string;
-   cantidad: number;
-   listo: boolean;
- }
+ 
